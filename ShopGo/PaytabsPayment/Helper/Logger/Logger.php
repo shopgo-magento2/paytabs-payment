@@ -1,5 +1,5 @@
 <?php
-namespace Shopgo\PaytabsPayment\Helper\Logger;
+namespace ShopGo\PaytabsPayment\Helper\Logger;
 
 class Logger extends \Monolog\Logger
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopgo\PaytabsPayment\Model\System\Config\Source\Status;
+namespace ShopGo\PaytabsPayment\Model\System\Config\Source\Status;
 
 /**
  * Order Statuses source model
