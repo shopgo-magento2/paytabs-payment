@@ -1,0 +1,13 @@
+<script>
+    require([
+        'prototype'
+    ], function () {
+        window.checkPaytabsAccount = function(){
+
+            window.alert('<?php echo $this->getAjaxCheckUrl() ?>');
+
+        }
+    });
+</script>
+
+<?php echo $block->getButtonHtml() ?>
