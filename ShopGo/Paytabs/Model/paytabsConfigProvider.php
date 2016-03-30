@@ -4,7 +4,7 @@ namespace ShopGo\Paytabs\Model;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 
-class paytabssConfigProvider implements ConfigProviderInterface
+class paytabsConfigProvider implements ConfigProviderInterface
 {
     protected $method;
 
