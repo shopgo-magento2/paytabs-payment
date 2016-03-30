@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="ShopGo_PaytabsPayment" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="paytabs" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Paytabs</label>
                 <comment>
                     <![CDATA[<a href="https://paytabs.com/" target="_blank">Click here and create new account</a>]]>
@@ -30,7 +30,7 @@
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>ShopGo\PaytabsPayment\Model\System\Config\Source\Status\Processing</source_model>
+                    <source_model>ShopGo\Paytabs\Model\System\Config\Source\Status\Processing</source_model>
                     <depends> <field id="active">1</field> </depends>
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">

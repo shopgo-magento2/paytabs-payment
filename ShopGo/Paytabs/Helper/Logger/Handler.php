@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopGo\PaytabsPayment\Helper\Logger;
+namespace ShopGo\Paytabs\Helper\Logger;
 
 use Monolog\Logger;
 
