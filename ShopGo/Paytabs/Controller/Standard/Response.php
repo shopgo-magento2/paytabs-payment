@@ -1,0 +1,65 @@
+<?php
+
+namespace ShopGo\Paytabs\Controller\Standard;
+
+class Response extends \ShopGo\Paytabs\Controller\Paytabs
+{
+
+    public function execute()
+    {
+    	
+    	$response = $this->getRequest()->getParams();
+
+		$payment_reference = $response['payment_reference'];
+
+
+		$merchant_email = "zaina@shopgo.me";
+		$secret_key     = "INk5ZhinxaY7pkPV7fyHc008jsk3YZcHNwMNO5amg8tFtjAAy8hK9iTsKevJdIq0fdN4iXqy6UdzdN9LWrw5JpytD3dQMEQ2RE6a";
+
+
+		$fields = array(
+			'merchant_email' => $merchant_email,
+			'secret_key' => $secret_key,
+			'payment_reference' => $payment_reference
+		);
+
+		$this->_logger->info(print_r($fields,true));
+
+		$fields_string = "";
+		foreach ($fields as $key => $value) {
+			$fields_string .= $key . '=' . $value . '&';
+		}
+
+		rtrim($fields_string, '&');
+		$gateway_url = "https://www.paytabs.com/apiv2/verify_payment";
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $gateway_url);
+		curl_setopt($ch, CURLOPT_POST, count($fields));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		$ch_result = curl_exec($ch);
+		$ch_error = curl_error($ch);
+		
+		$dec = json_decode($ch_result, true);
+
+
+		$this->_logger->info(print_r($dec,true));
+		
+		$orderId = $this->_checkoutSession->getLastRealOrderId();
+		$order	 = $this->getOrderById($orderId);
+		if ($dec['response_code'] == 100) {
+			$order->setStatus($order::STATE_PROCESSING);
+			$returnUrl = 'http://paytabs2.devstage.shopgo.io/checkout/onepage/success';
+		}
+		else
+		{
+				$order->cancel()->setState($order::STATE_CANCELED, true, 'Rejected Payment');
+				$returnUrl ='http://paytabs2.devstage.shopgo.io/checkout/onepage/failure';
+		}
+
+		$order->save();
+		$this->getResponse()->setRedirect($returnUrl);   
+    }
+}

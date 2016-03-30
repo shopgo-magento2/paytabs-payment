@@ -10,6 +10,8 @@
                 <secretkey backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <allowspecific>0</allowspecific>
                 <sort_order>0</sort_order>
+                <redirect_url>paytabs/standard/redirect</redirect_url>
+                <return_url>paytabs/standard/response</return_url>
             </paytabs>
         </payment>
     </default>
