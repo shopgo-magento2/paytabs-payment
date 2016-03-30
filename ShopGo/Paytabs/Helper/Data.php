@@ -40,7 +40,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     }
 
-    public function validateSecretKey() {
+    public function validateSecretKey() 
+    {
         $authentication_URL = $this->Pthost."/apiv2/validate_secret_key";
 
         $fields = array(
@@ -65,6 +66,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $dec = json_decode($ch_result,true);
         return $dec;
+    }
+
+    public function getUrl($route, $params = [])
+    {
+        return $this->_getUrl($route, $params);
     }
 
 }
