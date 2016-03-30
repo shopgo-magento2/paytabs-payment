@@ -51,7 +51,7 @@ class CheckAccountButton extends \Magento\Config\Block\System\Config\Form\Field
 
     public function getAjaxCheckUrl()
     {
-        $response=$this->_helper->PT_validatesecretkey();
+        $response=$this->_helper->validateSecretKey();
         if(isset($response) && $response['result']=="valid" && isset($response['response_code']) && $response['response_code']=="4000") {
             return  "Credentials Verified";;
         }
