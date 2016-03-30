@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <paytabs>
+                <active>1</active>
+                <model>ShopGo\Paytabs\Model\paytabs</model>
+                <title>Paytabs</title>
+                <order_status>pending</order_status>
+                <secretkey backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <allowspecific>0</allowspecific>
+                <sort_order>0</sort_order>
+            </paytabs>
+        </payment>
+    </default>
+</config>
