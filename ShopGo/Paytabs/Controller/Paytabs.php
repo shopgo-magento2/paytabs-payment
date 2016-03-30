@@ -61,9 +61,8 @@ abstract class Paytabs extends \Magento\Framework\App\Action\Action
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        $this->_paytabssHelper->cancelCurrentOrder($errorMsg);
+        $this->_paytabsHelper->cancelCurrentOrder($errorMsg);
         if ($this->_checkoutSession->restoreQuote()) {
-            //Redirect to payment step
             $gotoSection = 'paymentMethod';
         }
 

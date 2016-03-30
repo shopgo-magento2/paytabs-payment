@@ -110,7 +110,7 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         $gatewayParams["merchant_email"]        = $merchant_email;
         $gatewayParams["secret_key"]            = $access_code;
         $gatewayParams["site_url"]              = "http://paytabs2.devstage.shopgo.io";
-        $gatewayParams["return_url"]            = "http://paytabs2.devstage.shopgo.io/paytabss/standard/response/";
+        $gatewayParams["return_url"]            = "http://paytabs2.devstage.shopgo.io/paytabs/standard/response/";
         $gatewayParams["title"]                 = 'Title 10202';
         $gatewayParams["cc_first_name"]         = $arrBillingAddress['firstname'];
         $gatewayParams["cc_last_name"]          = $arrBillingAddress['lastname'];

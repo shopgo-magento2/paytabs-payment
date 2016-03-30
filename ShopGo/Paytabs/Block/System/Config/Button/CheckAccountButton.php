@@ -3,7 +3,7 @@
 namespace ShopGo\Paytabs\Block\System\Config\Button;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Shopgo\Paytabs\Helper\Data;
+use ShopGo\Paytabs\Helper\Data;
 
 class CheckAccountButton extends \Magento\Config\Block\System\Config\Form\Field
 {
