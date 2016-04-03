@@ -23,8 +23,8 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \ShopGo\Paytabs\Helper\Data $helper,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Payment\Model\Method\Logger $loggerو
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Payment\Model\Method\Logger $logger,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_countryFactory = $countryFactory;
         $this->_helper         = $helper;
@@ -108,40 +108,40 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         $shippingAddress = $order->getShippingAddress()->toArray();
 
         $params =[
-            "merchant_email"        => $merchant_email
-            "secret_key"            => $access_code;
-            "site_url"              => $this->_storeManager->getStore()->getBaseUrl();
-            "return_url"            => $this->_storeManager->getStore()->getBaseUrl().$this->getConfigData('return_url');
-            "title"                 => 'Title 10202';
-            "cc_first_name"         => $billingAddress['firstname'];
-            "cc_last_name"          => $billingAddress['lastname'];
+            "merchant_email"        => $merchant_email,
+            "secret_key"            => $access_code,
+            "site_url"              => $this->_storeManager->getStore()->getBaseUrl(),
+            "return_url"            => $this->_storeManager->getStore()->getBaseUrl().$this->getConfigData('return_url'),
+            "title"                 => 'Title 10202',
+            "cc_first_name"         => $billingAddress['firstname'],
+            "cc_last_name"          => $billingAddress['lastname'],
             "cc_phone_number"       => $this->_helper->_getccPhone($billingAddress['country_id']),
-            "phone_number"          => $billingAddress['telephone'];
-            "email"                 => $billingAddress['email'];
-            "products_per_title"    => $productsDetails["productTitle"];
-            "unit_price"            => $productsDetails["productPrice"];
-            "quantity"              => $productsDetails["productQty"];
-            "other_charges"         => $order->getGrandTotal() - $productsDetails['total'];
-            "amount"                => $order->getGrandTotal();
-            "discount"              => 0;
-            "currency"              => $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
-            "reference_no"          => "ABC";
-            "ip_customer"           => "212.34.20.88";
-            "ip_merchant"           => $_SERVER['SERVER_ADDR'];
-            "billing_address"       => $billingAddress['street'];;
-            "state"                 => $billingAddress['region'];
-            "city"                  => $billingAddress['city'];
-            "postal_code"           => $billingAddress['postcode'];
-            "country"               => $this->_getISO3Code($billingAddress['country_id']);
-            "shipping_first_name"   => $shippingAddress["firstname"];
-            "shipping_last_name"    => $shippingAddress["lastname"];
-            "address_shipping"      => $shippingAddress["street"];;
-            "city_shipping"         => $shippingAddress["city"];
-            "state_shipping"        => $shippingAddress["region"];
-            "postal_code_shipping"  => $shippingAddress["postcode"];
-            "country_shipping"      => $this->_getISO3Code($shippingAddress["country_id"]);
-            "msg_lang"              => "English";
-            "cms_with_version"      => "Magento 2.0.0";
+            "phone_number"          => $billingAddress['telephone'],
+            "email"                 => $billingAddress['email'],
+            "products_per_title"    => $productsDetails["productTitle"],
+            "unit_price"            => $productsDetails["productPrice"],
+            "quantity"              => $productsDetails["productQty"],
+            "other_charges"         => $order->getGrandTotal() - $productsDetails['total'],
+            "amount"                => $order->getGrandTotal(),
+            "discount"              => 0,
+            "currency"              => $this->_storeManager->getStore()->getCurrentCurrency()->getCode(),
+            "reference_no"          => "ABC",
+            "ip_customer"           => "212.34.20.88",
+            "ip_merchant"           => $_SERVER['SERVER_ADDR'],
+            "billing_address"       => $billingAddress['street'],
+            "state"                 => $billingAddress['region'],
+            "city"                  => $billingAddress['city'],
+            "postal_code"           => $billingAddress['postcode'],
+            "country"               => $this->_getISO3Code($billingAddress['country_id']),
+            "shipping_first_name"   => $shippingAddress["firstname"],
+            "shipping_last_name"    => $shippingAddress["lastname"],
+            "address_shipping"      => $shippingAddress["street"],
+            "city_shipping"         => $shippingAddress["city"],
+            "state_shipping"        => $shippingAddress["region"],
+            "postal_code_shipping"  => $shippingAddress["postcode"],
+            "country_shipping"      => $this->_getISO3Code($shippingAddress["country_id"]),
+            "msg_lang"              => "English",
+            "cms_with_version"      => "Magento 2.0.0"
 
         ];
         return $params;
