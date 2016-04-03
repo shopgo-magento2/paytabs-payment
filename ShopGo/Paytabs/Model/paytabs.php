@@ -12,6 +12,8 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_helper;
     private   $_gatewayHost = 'https://www.paytabs.com/apiv2/create_pay_page';
 
+    protected $_storeManager;
+
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -21,10 +23,12 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \ShopGo\Paytabs\Helper\Data $helper,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Payment\Model\Method\Logger $logger
+        \Magento\Payment\Model\Method\Logger $loggerو
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
     ) {
         $this->_countryFactory = $countryFactory;
         $this->_helper         = $helper;
+        $this->_storeManager=$storeManager;
         parent::__construct(
             $context,
             $registry,
@@ -37,8 +41,6 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     
-
-
     public function getPaymentGatewayUrl($order)
     {
         $fields = $this->getPostData($order);
@@ -93,57 +95,56 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     public function getPostData($order)
     {
 
-        $gatewayParams = array();
+        $merchant_email = $this->getConfigData('username');;
 
-        $merchant_email = "zaina@shopgo.me";
-
-        $access_code = "INk5ZhinxaY7pkPV7fyHc008jsk3YZcHNwMNO5amg8tFtjAAy8hK9iTsKevJdIq0fdN4iXqy6UdzdN9LWrw5JpytD3dQMEQ2RE6a";
+        $access_code    = $this->getConfigData('secretkey');
 
         $items = $order->getAllVisibleItems();
 
         $productsDetails =  $this->productstitle($items);
 
-        $arrBillingAddress = $order->getBillingAddress()->toArray();
+        $billingAddress  = $order->getBillingAddress()->toArray();
 
-        $arrShippingAddress = $order->getShippingAddress()->toArray();
+        $shippingAddress = $order->getShippingAddress()->toArray();
 
-        $gatewayParams["merchant_email"]        = $merchant_email;
-        $gatewayParams["secret_key"]            = $access_code;
-        $gatewayParams["site_url"]              = "http://paytabs2.devstage.shopgo.io";
-        $gatewayParams["return_url"]            = "http://paytabs2.devstage.shopgo.io/paytabs/standard/response/";
-        $gatewayParams["title"]                 = 'Title 10202';
-        $gatewayParams["cc_first_name"]         = $arrBillingAddress['firstname'];
-        $gatewayParams["cc_last_name"]          = $arrBillingAddress['lastname'];
-        $gatewayParams["cc_phone_number"]       = "00962";
-        $gatewayParams["phone_number"]          = $arrBillingAddress['telephone'];
-        $gatewayParams["email"]                 = $arrBillingAddress['email'];
-        $gatewayParams["products_per_title"]    = $productsDetails["productTitle"];
-        $gatewayParams["unit_price"]            = $productsDetails["productPrice"];
-        $gatewayParams["quantity"]              = $productsDetails["productQty"];
-        $gatewayParams["other_charges"]         = 5;
-        $gatewayParams["amount"]                = $order->getGrandTotal();
-        $gatewayParams["discount"]              = 0;
-        $gatewayParams["currency"]              = "USD";
-        $gatewayParams["reference_no"]          = "ABC_Smaeer";
-        $gatewayParams["ip_customer"]           = "212.34.20.88";
-        $gatewayParams["ip_merchant"]           = "212.34.20.88";
-        $gatewayParams["billing_address"]       = $arrBillingAddress['street'];;
-        $gatewayParams["state"]                 = "Amman";
-        $gatewayParams["city"]                  = $arrBillingAddress['city'];;
-        $gatewayParams["postal_code"]           = $arrBillingAddress['postcode'];;
-        $gatewayParams["country"]               = $this->_getISO3Code($arrBillingAddress['country_id']);
-        $gatewayParams["shipping_first_name"]   = $arrShippingAddress["firstname"];
-        $gatewayParams["shipping_last_name"]    = $arrShippingAddress["lastname"];
-        $gatewayParams["address_shipping"]      = $arrShippingAddress["street"];;
-        $gatewayParams["city_shipping"]         = $arrShippingAddress["city"];
-        $gatewayParams["state_shipping"]        = "Amman";
-        $gatewayParams["postal_code_shipping"]  = $arrShippingAddress["postcode"];
-        $gatewayParams["country_shipping"]      = $this->_getISO3Code($arrShippingAddress["country_id"]);
-        $gatewayParams["msg_lang"]              = "English";
-        $gatewayParams["cms_with_version"]      = "Magento 2.0.0";
+        $params =[
+            "merchant_email"        => $merchant_email
+            "secret_key"            => $access_code;
+            "site_url"              => $this->_storeManager->getStore()->getBaseUrl();
+            "return_url"            => $this->_storeManager->getStore()->getBaseUrl().$this->getConfigData('return_url');
+            "title"                 => 'Title 10202';
+            "cc_first_name"         => $billingAddress['firstname'];
+            "cc_last_name"          => $billingAddress['lastname'];
+            "cc_phone_number"       => $this->_helper->_getccPhone($billingAddress['country_id']),
+            "phone_number"          => $billingAddress['telephone'];
+            "email"                 => $billingAddress['email'];
+            "products_per_title"    => $productsDetails["productTitle"];
+            "unit_price"            => $productsDetails["productPrice"];
+            "quantity"              => $productsDetails["productQty"];
+            "other_charges"         => $order->getGrandTotal() - $productsDetails['total'];
+            "amount"                => $order->getGrandTotal();
+            "discount"              => 0;
+            "currency"              => $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
+            "reference_no"          => "ABC";
+            "ip_customer"           => "212.34.20.88";
+            "ip_merchant"           => $_SERVER['SERVER_ADDR'];
+            "billing_address"       => $billingAddress['street'];;
+            "state"                 => $billingAddress['region'];
+            "city"                  => $billingAddress['city'];
+            "postal_code"           => $billingAddress['postcode'];
+            "country"               => $this->_getISO3Code($billingAddress['country_id']);
+            "shipping_first_name"   => $shippingAddress["firstname"];
+            "shipping_last_name"    => $shippingAddress["lastname"];
+            "address_shipping"      => $shippingAddress["street"];;
+            "city_shipping"         => $shippingAddress["city"];
+            "state_shipping"        => $shippingAddress["region"];
+            "postal_code_shipping"  => $shippingAddress["postcode"];
+            "country_shipping"      => $this->_getISO3Code($shippingAddress["country_id"]);
+            "msg_lang"              => "English";
+            "cms_with_version"      => "Magento 2.0.0";
 
-        return $gatewayParams;
-
+        ];
+        return $params;
     }
     
     public function getRedirectUrl()
@@ -167,11 +168,13 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
             $products_per_title = $product->getName()."||";
             $unit_price = $product->getFinalPrice(1)."||";
             $productQty = $item->getQtyOrdered()."||";
+            $total     += $product->getFinalPrice(1) * $item->getQtyOrdered();
         }
         return [ 
             "productTitle" => $products_per_title,
             "productPrice" => $unit_price,
-            "productQty"   => $productQty
+            "productQty"   => $productQty,
+            "total"        => $total
             ];
     }
 
