@@ -229,6 +229,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
           "US" => '+1'//array("UNITED STATES", "US", "USA", "840"),
           
         );
-         ret $countries[$code];
+         return $countries[$code];
     }
 }
