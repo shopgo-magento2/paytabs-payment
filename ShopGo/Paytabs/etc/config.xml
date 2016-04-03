@@ -7,7 +7,6 @@
                 <model>ShopGo\Paytabs\Model\paytabs</model>
                 <title>Paytabs</title>
                 <order_status>pending</order_status>
-                <secretkey backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <allowspecific>0</allowspecific>
                 <sort_order>0</sort_order>
                 <redirect_url>paytabs/standard/redirect</redirect_url>
