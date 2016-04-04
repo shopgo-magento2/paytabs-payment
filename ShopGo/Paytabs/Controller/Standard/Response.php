@@ -13,8 +13,8 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 		$payment_reference = $response['payment_reference'];
 
 
-		$merchant_email = $this->_helper->scopeConfig->getValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_MEREMAIL,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-		$secret_key     = $this->_helper->scopeConfig->getValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_SECRET,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		$merchant_email = $this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_MEREMAIL);
+		$secret_key     = $this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_SECRET);
 
 		$fields = array(
 			'merchant_email' => $merchant_email,

@@ -34,6 +34,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
     }
 
+
+    public function getConfigValue($xmlPath)
+    {
+        return $this->scopeConfig->getValue($xmlPath,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+    }
+
     public function checkAccount()
     {
         return $this->scopeConfig->getValue(self::XML_PATH_MEREMAIL,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
