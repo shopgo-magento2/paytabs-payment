@@ -6,7 +6,11 @@ use Magento\Checkout\Model\ConfigProviderInterface;
 
 class paytabsConfigProvider implements ConfigProviderInterface
 {
+    protected $methodCode = \ShopGo\Paytabs\Model\paytabs::CODE;
+
     protected $method;
+
+    protected $escaper;
 
     public function __construct(
         Magento\Payment\Helper\Data $Helper
