@@ -163,6 +163,7 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     {
         $products_per_title="";
         $unit_price ="";
+        $total=0;
         foreach ($items as $item) {
             $product = $item->getProduct();
             $products_per_title = $product->getName()."||";
