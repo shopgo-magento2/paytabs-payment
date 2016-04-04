@@ -13,6 +13,7 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     private   $_gatewayHost = 'https://www.paytabs.com/apiv2/create_pay_page';
 
     protected $_storeManager;
+    protected $_productMetaData;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -24,8 +25,10 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         \ShopGo\Paytabs\Helper\Data $helper,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Payment\Model\Method\Logger $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\ProductMetadata $productMetaData
     ) {
+        $this->_productMetaData= $productMetaData;
         $this->_countryFactory = $countryFactory;
         $this->_helper         = $helper;
         $this->_storeManager=$storeManager;
@@ -141,7 +144,7 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
             "postal_code_shipping"  => $shippingAddress["postcode"],
             "country_shipping"      => $this->_getISO3Code($shippingAddress["country_id"]),
             "msg_lang"              => "English",
-            "cms_with_version"      => "Magento 2.0.0"
+            "cms_with_version"      => $this->_productMetaData->getVersion()
 
         ];
         return $params;
