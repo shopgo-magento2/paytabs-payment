@@ -10,6 +10,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_DEBUG       = 'payment/paytabs/debug';
     const XML_PATH_MEREMAIL    = 'payment/paytabs/username';
     const XML_PATH_SECRET      = 'payment/paytabs/secretkey';
+    const XML_PATH_STATUS      = 'payment/paytabs/order_status';
     const PAYTABS              = 'https://www.paytabs.com';
 
     protected  $Pthost         =  self::PAYTABS;

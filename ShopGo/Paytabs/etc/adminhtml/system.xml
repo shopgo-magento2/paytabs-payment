@@ -15,45 +15,45 @@
                     <label>Title</label>
                     <depends> <field id="active">1</field> </depends>
                 </field>
-                <field id="username" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="username" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Merchant email</label>
                     <depends> <field id="active">1</field> </depends>
                 </field>
-                <field id="secretkey" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="secretkey" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Secret key</label>
                     <depends> <field id="active">1</field> </depends>
                 </field>
-                <field id="paytabs_account_checker" translate="label" type="button" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Check Account</label>
+                <field id="paytabs_account_checker" translate="label" type="button" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Run</label>
                     <frontend_model>ShopGo\Paytabs\Block\System\Config\Button\CheckAccountButton</frontend_model>
                     <depends> <field id="active">1</field> </depends>
                 </field>
-                <field id="order_status" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="order_status" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
-                    <source_model>ShopGo\Paytabs\Model\System\Config\Source\Status\Processing</source_model>
+                    <source_model>ShopGo\Paytabs\Model\System\Config\Source\Status\Status</source_model>
                     <depends> <field id="active">1</field> </depends>
                 </field>
-                <field id="debug" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="debug" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Debug</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends> <field id="active">1</field> </depends>
                 </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Sort Order</label>
-                    <depends> <field id="active">1</field> </depends>
-                </field>
-                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
                     <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                     <depends> <field id="active">1</field> </depends>
                 </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
                     <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                     <depends>
-                        <field id="active">1</field>
                         <field id="allowspecific">1</field>
                     </depends>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                    <depends> <field id="active">1</field> </depends>
                 </field>
             </group>
         </section>
