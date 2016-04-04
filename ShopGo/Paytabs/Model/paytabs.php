@@ -167,9 +167,9 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         $productQty="";
         foreach ($items as $item) {
             $product = $item->getProduct();
-            $products_per_title .= $product->getName()."||";
-            $unit_price .= $product->getFinalPrice(1)."||";
-            $productQty .= $item->getQtyOrdered()."||";
+            $products_per_title .= $product->getName()." || ";
+            $unit_price .= $product->getFinalPrice(1)." || ";
+            $productQty .= $item->getQtyOrdered()." || ";
             $total     += $product->getFinalPrice(1) * $item->getQtyOrdered();
         }
         return [ 
