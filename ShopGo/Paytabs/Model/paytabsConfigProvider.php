@@ -12,11 +12,16 @@ class paytabsConfigProvider implements ConfigProviderInterface
 
     protected $escaper;
 
+
+
     public function __construct(
-        Magento\Payment\Helper\Data $Helper
+        \Magento\Payment\Helper\Data $paymentHelper,
+        \Magento\Framework\Escaper $escaper
     ) {
-        $this->method = $Helper->getMethodInstance(ShopGo\Paytabs\Model\paytabs::CODE);
+        $this->escaper = $escaper;
+        $this->method = $paymentHelper->getMethodInstance($this->methodCode);
     }
+
 
     public function getConfig()
     {
