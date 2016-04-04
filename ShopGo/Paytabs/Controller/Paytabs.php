@@ -29,20 +29,25 @@ abstract class Paytabs extends \Magento\Framework\App\Action\Action
      */
     protected $_quote = false;
 
+    protected $_helper;
+
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Psr\Log\LoggerInterface $logger
+     * @param \ShopGo\Paytabs\Helper\Data $helper
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Psr\Log\LoggerInterface $logger
+        \Psr\Log\LoggerInterface $logger,
+        \ShopGo\Paytabs\Helper\Data $helper
     ) {
+        $this->_helper = $helper;
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory = $orderFactory;

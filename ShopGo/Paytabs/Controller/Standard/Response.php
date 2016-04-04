@@ -13,9 +13,8 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 		$payment_reference = $response['payment_reference'];
 
 
-		$merchant_email = "zaina@shopgo.me";
-		$secret_key     = "INk5ZhinxaY7pkPV7fyHc008jsk3YZcHNwMNO5amg8tFtjAAy8hK9iTsKevJdIq0fdN4iXqy6UdzdN9LWrw5JpytD3dQMEQ2RE6a";
-
+		$merchant_email = $this->_helper->scopeConfig->getValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_MEREMAIL,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		$secret_key     = $this->_helper->scopeConfig->getValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_SECRET,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
 		$fields = array(
 			'merchant_email' => $merchant_email,
@@ -51,12 +50,12 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 		$order	 = $this->getOrderById($orderId);
 		if ($dec['response_code'] == 100) {
 			$order->setStatus($order::STATE_PROCESSING);
-			$returnUrl = 'http://paytabs2.devstage.shopgo.io/checkout/onepage/success';
+			$returnUrl = $this->_helper->getUrl("checkout/onepage/success");
 		}
 		else
 		{
 				$order->cancel()->setState($order::STATE_CANCELED, true, 'Rejected Payment');
-				$returnUrl ='http://paytabs2.devstage.shopgo.io/checkout/onepage/failure';
+				$returnUrl =$this->_helper->getUrl("checkout/onepage/failure");
 		}
 
 		$order->save();
