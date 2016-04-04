@@ -12,7 +12,7 @@ define(
         'use strict';
         return Component.extend({
             defaults: {
-                template: 'ShopGo_paytabs/payment/paytabs'
+                template: 'ShopGo_Paytabs/payment/paytabs'
             },
             placeOrder: function (data, event) {
                 if (event) {

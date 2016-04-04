@@ -23,7 +23,7 @@
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
                                                                 <item name="paytabs-payments" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">ShopGo_Paytabs/js/view/payment/paytabs-payments</item>
+                                                                    <item name="component" xsi:type="string">ShopGo_Paytabs/js/view/payment/paytabs-payment</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="paytabs" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
