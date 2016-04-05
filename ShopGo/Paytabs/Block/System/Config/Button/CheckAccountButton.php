@@ -26,7 +26,7 @@ class CheckAccountButton extends \Magento\Config\Block\System\Config\Form\Field
         )->setData(
             [
                 'id' => 'paytabs_account_checker',
-                'label' => __('Account verification'),
+                'label' => __('Run'),
                 'onclick' => 'javascript:checkPaytabsAccount(); return false;',
             ]
         );

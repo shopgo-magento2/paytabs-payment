@@ -21,7 +21,7 @@
                     <label>Secret key</label>
                 </field>
                 <field id="paytabs_account_checker" translate="label" type="button" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Run</label>
+                    <label>Check account</label>
                     <frontend_model>ShopGo\Paytabs\Block\System\Config\Button\CheckAccountButton</frontend_model> 
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
