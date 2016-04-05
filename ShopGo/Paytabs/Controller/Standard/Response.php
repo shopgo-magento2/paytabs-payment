@@ -49,7 +49,7 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 		$orderId = $this->_checkoutSession->getLastRealOrderId();
 		$order	 = $this->getOrderById($orderId);
 		if ($dec['response_code'] == 100) {
-			$order->setStatus($order->setStatus(
+			$order->setStatus(
 				($this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_STATUS)==\Magento\Sales\Model\Order::STATE_PROCESSING) ? $order::STATE_PROCESSING : $order::STATE_PENDING_PAYMENT
 			);
 			$returnUrl = $this->_helper->getUrl("checkout/onepage/success");
