@@ -4,25 +4,38 @@
         <section id="payment">
             <group id="paytabs" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Paytabs</label>
-                <comment>
-                    <![CDATA[<a href="https://paytabs.com/" target="_blank">Click here and create new account</a>]]>
-                </comment>
+
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                    <![CDATA[<a href="https://shopgo.me/" target="_blank">How to configure PayTabs on your store</a>]]>
+                    </comment>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
                 </field>
                 <field id="username" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Merchant email</label>  
+                    <label>Merchant email</label>
+                    <tooltip>
+                        Add the email address you used to create your PayTabs account
+                    </tooltip>
                 </field>
                 <field id="secretkey" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Secret key</label>
+                    <tooltip>
+                    This is found in your PayTabs account: PayTabs Services > E-commerce plugins And APIs
+                    </tooltip>
+                    <comment>
+                    <![CDATA[<a href="https://paytabs.com/" target="_blank">Click here and create new account</a>]]>
+                    </comment>
                 </field>
                 <field id="paytabs_account_checker" translate="label" type="button" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Check account</label>
-                    <frontend_model>ShopGo\Paytabs\Block\System\Config\Button\CheckAccountButton</frontend_model> 
+                    <frontend_model>ShopGo\Paytabs\Block\System\Config\Button\CheckAccountButton</frontend_model>
+                    <comment>
+                       Note: Make sure to save your changes before verifying your account.
+                    </comment>
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
@@ -36,6 +49,8 @@
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
                     <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    <comment>Note: All allowed countries are the countries selected from STORE > Configuration > GENERAL > General> Allow Countries
+                    </comment>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Specific Countries</label>
@@ -46,6 +61,9 @@
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
+                    <tooltip>
+                    Specify sort order in checkout page in relation to other payment methods
+                    </tooltip>
                 </field>
             </group>
         </section>
