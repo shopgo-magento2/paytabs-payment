@@ -1,11 +1,27 @@
 <script>
     require([
-        'prototype'
-    ], function () {
+        'jquery',
+        'Magento_Ui/js/modal/modal'
+    ], function ($,modal) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Check Account',
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
         window.checkPaytabsAccount = function(){
+            $('body').append('<div class="paytabs-popup"><?php echo $this->getAjaxCheckUrl() ?></div>');
+            var popup = modal(options, $('.paytabs-popup'));
+            $('.paytabs-popup').modal('openModal');
 
-            window.alert('<?php echo $this->getAjaxCheckUrl() ?>');
-
+            $(".modal-inner-wrap").css("max-width",'35%');
         }
     });
 </script>
