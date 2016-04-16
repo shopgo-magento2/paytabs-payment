@@ -10,7 +10,6 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
 
     protected $_countryFactory;
     protected $_helper;
-    private   $_gatewayHost = 'https://www.paytabs.com/apiv2/create_pay_page';
 
     protected $_storeManager;
     protected $_productMetaData;
@@ -57,7 +56,7 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         $fields_string = substr($fields_string, 0, strrpos($fields_string, '&'));
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->_gatewayHost);
+        curl_setopt($ch, CURLOPT_URL, \ShopGo\Paytabs\Helper\Data::PAYTABS_SITE.\ShopGo\Paytabs\Helper\Data::CREATE_PAY_PAGE);
         curl_setopt($ch, CURLOPT_POST, count($fields));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

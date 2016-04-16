@@ -11,8 +11,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_MEREMAIL    = 'payment/paytabs/username';
     const XML_PATH_SECRET      = 'payment/paytabs/secretkey';
     const XML_PATH_STATUS      = 'payment/paytabs/order_status';
-    const PAYTABS              = 'https://www.paytabs.com';
-    protected  $Pthost         =  self::PAYTABS;
+    const CREATE_PAY_PAGE      = '/apiv2/create_pay_page';
+    const VALIADTE_ACCOUNT     = '/apiv2/validate_secret_key';
+    const VERFY_PAYMENT        = '/apiv2/verify_payment';
+    const PAYTABS_SITE         = 'https://www.paytabs.com';
+
+
 
     protected $countries = array(
           "AF" => '+93',//array("AFGHANISTAN", "AF", "AFG", "004"),
@@ -198,7 +202,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function validateSecretKey() 
     {
-        $authentication_URL = $this->Pthost."/apiv2/validate_secret_key";
+        $authentication_URL = self::PAYTABS_SITE.self::VALIADTE_ACCOUNT;
 
         $fields = array(
           'merchant_email' => $this->getConfigValue(self::XML_PATH_MEREMAIL),

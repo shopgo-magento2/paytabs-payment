@@ -28,7 +28,7 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 		}
 
 		rtrim($fields_string, '&');
-		$gateway_url = "https://www.paytabs.com/apiv2/verify_payment";
+		$gateway_url = \ShopGo\Paytabs\Helper\Data::PAYTABS_SITE.\ShopGo\Paytabs\Helper\Data::VERFY_PAYMENT;
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $gateway_url);
 		curl_setopt($ch, CURLOPT_POST, count($fields));
