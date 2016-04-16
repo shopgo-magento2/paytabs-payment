@@ -3,7 +3,7 @@
     <default>
         <payment>
             <paytabs>
-                <active>1</active>
+                <active>0</active>
                 <model>ShopGo\Paytabs\Model\paytabs</model>
                 <title>Paytabs</title>
                 <order_status>pending</order_status>
