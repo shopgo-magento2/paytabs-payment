@@ -7,18 +7,16 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 
     public function execute()
     {
-    	
-    	$response = $this->getRequest()->getParams();
-
+   
+    	$response          = $this->getRequest()->getParams();
 		$payment_reference = $response['payment_reference'];
 
-
-		$merchant_email = $this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_MEREMAIL);
-		$secret_key     = $this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_SECRET);
+		$merchant_email    = $this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_MEREMAIL);
+		$secret_key        = $this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_SECRET);
 
 		$fields = array(
-			'merchant_email' => $merchant_email,
-			'secret_key' => $secret_key,
+			'merchant_email'    => $merchant_email,
+			'secret_key'        => $secret_key,
 			'payment_reference' => $payment_reference
 		);
 
@@ -38,26 +36,25 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+
 		$ch_result = curl_exec($ch);
-		$ch_error = curl_error($ch);
-		
-		$dec = json_decode($ch_result, true);
+		$ch_error  = curl_error($ch);
+		$result    = json_decode($ch_result, true);
 
-
-		$this->_logger->info(print_r($dec,true));
+		$this->_logger->info(print_r($result,true));
 		
 		$orderId = $this->_checkoutSession->getLastRealOrderId();
 		$order	 = $this->getOrderById($orderId);
-		if ($dec['response_code'] == 100) {
-			$order->setStatus(
-				($this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_STATUS)==\Magento\Sales\Model\Order::STATE_PROCESSING) ? $order::STATE_PROCESSING : $order::STATE_PENDING_PAYMENT
-			);
+
+		if ($result['response_code'] == 100) {
+
+			$order->setStatus($this->_helper->getConfigValue(\ShopGo\Paytabs\Helper\Data::XML_PATH_STATUS));
 			$returnUrl = $this->_helper->getUrl("checkout/onepage/success");
-		}
-		else
-		{
-				$order->cancel()->setState($order::STATE_CANCELED, true, 'Rejected Payment');
-				$returnUrl =$this->_helper->getUrl("checkout/onepage/failure");
+
+		}else{
+
+			$order->cancel()->setState($order::STATE_CANCELED, true, 'Rejected Payment');
+			$returnUrl =$this->_helper->getUrl("checkout/onepage/failure");
 		}
 
 		$order->save();

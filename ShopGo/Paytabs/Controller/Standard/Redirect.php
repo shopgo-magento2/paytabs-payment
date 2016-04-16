@@ -18,10 +18,6 @@ class Redirect extends \Magento\Framework\App\Action\Action
     
     public function execute()
     {   
-        $paymentMethod = $this->_objectManager->create('ShopGo\Paytabs\Model\paytabs');
-
-        $data = $this->getRequest()->getPostValue();
-
         return $this->resultPageFactory->create();
     }
 }
