@@ -1,8 +1,5 @@
-<form name="paytabs_form" id="paytabs_form" action="<?php echo $block->getPaymentGatewayUrl(); ?>" method="POST">
-<?php foreach($block->getPostData() as $key => $value): ?>
-	<input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>">
-<?php endforeach; ?>
-</form>
+<form name="paytabs_form" id="paytabs_form" action="<?php echo $block->getPaymentGatewayUrl(); ?>" method="POST"></form>
+
 <script type="text/javascript">
     document.getElementById('paytabs_form').submit();
 </script>

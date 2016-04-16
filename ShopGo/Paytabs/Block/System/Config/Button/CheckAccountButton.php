@@ -34,25 +34,21 @@ class CheckAccountButton extends \Magento\Config\Block\System\Config\Form\Field
         return $button->toHtml();
     }
 
-
     public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
-        // Remove scope label
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
     }
-
 
     protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         return $this->_toHtml();
     }
 
-
     public function getAjaxCheckUrl()
     {
         $response=$this->_helper->validateSecretKey();
-        if(isset($response) && $response['result']=="valid" && isset($response['response_code']) && $response['response_code']=="4000") {
+        if($response['response_code']=="4000"){
             return  "Credentials Verified";;
         }
         else
