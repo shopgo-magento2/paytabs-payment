@@ -67,7 +67,9 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     {
         $fields = $this->getPostData($order);
 
-        $this->_logger->info(print_r($fields,true));
+        if ($this->_helper->getDebugStatus()) {
+            $this->_logger->info(print_r($fields,true));
+        }
 
         $fields_string = "";
         foreach ($fields as $key => $value) {
@@ -85,15 +87,17 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         $ch_result = curl_exec($ch);
         $ch_error = curl_error($ch);
 
-        $dec = json_decode($ch_result, true);
+        $result = json_decode($ch_result, true);
 
-        $this->_logger->info(print_r($dec,true));
+        if ($this->_helper->getDebugStatus()) {
+            $this->_logger->info(print_r($result,true));
+        }
 
-        if (isset($dec['response_code']) && $dec['response_code'] == "4012") {
-            return $dec["payment_url"];
+        if (isset($result['response_code']) && $result['response_code'] == "4012") {
+            return $result["payment_url"];
             //$this->_paypageStatus = true;
         } else {
-            switch ($dec['response_code']) {
+            switch ($result['response_code']) {
                 case "4001":
                     $errorMessage = "Variable not found.";
                     break;

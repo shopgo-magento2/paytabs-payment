@@ -20,7 +20,9 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 			'payment_reference' => $payment_reference
 		);
 
-		$this->_logger->info(print_r($fields,true));
+        if ($this->_helper->getDebugStatus()) {
+		    $this->_logger->info(print_r($fields,true));
+        }
 
 		$fields_string = "";
 		foreach ($fields as $key => $value) {
@@ -41,8 +43,10 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 		$ch_error  = curl_error($ch);
 		$result    = json_decode($ch_result, true);
 
-		$this->_logger->info(print_r($result,true));
-		
+        if ($this->_helper->getDebugStatus()) {
+		    $this->_logger->info(print_r($result,true));
+		}
+
 		$orderId = $this->_checkoutSession->getLastRealOrderId();
 		$order	 = $this->getOrderById($orderId);
 
