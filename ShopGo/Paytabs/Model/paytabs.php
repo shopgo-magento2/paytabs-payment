@@ -8,10 +8,24 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
 
     protected $_code = self::CODE;
 
+    /**
+     * @var \Magento\Directory\Model\CountryFactory
+     */
     protected $_countryFactory;
-    protected $_helper;
 
+    /**
+     * @var \ShopGo\Paytabs\Helper\Data
+     */
+    protected $_helper;
+    
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
     protected $_storeManager;
+    
+    /**
+     * @var \Magento\Framework\App\ProductMetadata
+     */
     protected $_productMetaData;
 
     public function __construct(
@@ -93,7 +107,12 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         }
     }
 
-
+    /**
+     * prepare create page request parameters
+     *
+     * @param Order $order
+     * @return $array
+     */
     public function getPostData($order)
     {
 
@@ -103,7 +122,7 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
 
         $items = $order->getAllVisibleItems();
 
-        $productsDetails =  $this->productstitle($items);
+        $productsDetails =  $this->productsTitle($items);
 
         $billingAddress  = $order->getBillingAddress()->toArray();
 
@@ -114,7 +133,7 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
             "secret_key"            => $access_code,
             "site_url"              => $this->_storeManager->getStore()->getBaseUrl(),
             "return_url"            => $this->_storeManager->getStore()->getBaseUrl().$this->getConfigData('return_url'),
-            "title"                 => 'Title 10202',
+            "title"                 => 'Title',//to detect
             "cc_first_name"         => $billingAddress['firstname'],
             "cc_last_name"          => $billingAddress['lastname'],
             "cc_phone_number"       => $this->_helper->_getccPhone($billingAddress['country_id']),
@@ -125,11 +144,11 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
             "quantity"              => $productsDetails["productQty"],
             "other_charges"         => $order->getGrandTotal() - $productsDetails['total'],
             "amount"                => $order->getGrandTotal(),
-            "discount"              => 0,
+            "discount"              => 0,//to detect
             "currency"              => $this->_storeManager->getStore()->getCurrentCurrency()->getCode(),
-            "reference_no"          => "ABC",
-            "ip_customer"           => "212.34.20.88",
-            "ip_merchant"           => $_SERVER['SERVER_ADDR'],
+            "reference_no"          => "reference_no",//to detect
+            "ip_customer"           => $_SERVER['SERVER_ADDR'],//to detect
+            "ip_merchant"           => $_SERVER['SERVER_ADDR'],//to detect
             "billing_address"       => $billingAddress['street'],
             "state"                 => !empty($billingAddress['region']) ? $billingAddress['region'] : "MENA Country",
             "city"                  => $billingAddress['city'],
@@ -149,19 +168,36 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         return $params;
     }
     
+    /**
+     * Get redirect controller url
+     *
+     * @return $string
+     */
     public function getRedirectUrl()
     {
         $url = $this->_helper->getUrl($this->getConfigData('redirect_url'));
         return $url;
     }
 
+    /**
+     * Get response controller url
+     *
+     * @return $string
+     */
     public function getReturnUrl()
     {
         $url = $this->_helper->getUrl($this->getConfigData('return_url'));
         return $url;
     }
 
-    protected function productstitle ($items)
+
+    /**
+     * return array of products with details as paytabs api required 
+     *
+     * @param Collection $items
+     * @return $array
+     */
+    protected function productsTitle ($items)
     {
         $products_per_title="";
         $unit_price ="";
@@ -182,6 +218,12 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
             ];
     }
 
+    /**
+     * get country code with ISO3 fromat 
+     *
+     * @param String $countrycode
+     * @return String
+     */
     protected function _getISO3Code($countrycode)
     {
         $country = $this->_countryFactory->create()->loadByCode($countrycode, 'iso3_code');
