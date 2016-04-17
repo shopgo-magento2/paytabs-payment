@@ -24,7 +24,7 @@ class Redirect extends Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \ShopGo\Paytabs\Model\paytabs $paytabs,
+        \ShopGo\Paytabs\Model\Paytabs $paytabs,
         array $data = []
     ) {
         parent::__construct($context, $data);

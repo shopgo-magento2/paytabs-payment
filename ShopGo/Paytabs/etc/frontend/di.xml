@@ -4,7 +4,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="paytabs_config_provider" xsi:type="object">ShopGo\Paytabs\Model\paytabsConfigProvider</item>
+                <item name="paytabs_config_provider" xsi:type="object">ShopGo\Paytabs\Model\PaytabsConfigProvider</item>
             </argument>
         </arguments>
     </type>

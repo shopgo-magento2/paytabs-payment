@@ -6,7 +6,7 @@ use Magento\Checkout\Model\ConfigProviderInterface;
 
 class paytabsConfigProvider implements ConfigProviderInterface
 {
-    protected $methodCode = \ShopGo\Paytabs\Model\paytabs::CODE;
+    protected $methodCode = \ShopGo\Paytabs\Model\Paytabs::CODE;
 
     protected $method;
 

@@ -2,7 +2,7 @@
 
 namespace ShopGo\Paytabs\Model;
 
-class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
+class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const CODE = 'paytabs';
 

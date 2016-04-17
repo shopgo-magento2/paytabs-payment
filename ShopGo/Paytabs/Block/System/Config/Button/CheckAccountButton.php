@@ -49,7 +49,7 @@ class CheckAccountButton extends \Magento\Config\Block\System\Config\Form\Field
     {
         $response=$this->_helper->validateSecretKey();
         if($response['response_code']=="4000"){
-            return  "Credentials Verified";;
+            return  "Credentials Verified";
         }
         else
             return  $response['result'];

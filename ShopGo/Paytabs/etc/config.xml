@@ -4,7 +4,7 @@
         <payment>
             <paytabs>
                 <active>0</active>
-                <model>ShopGo\Paytabs\Model\paytabs</model>
+                <model>ShopGo\Paytabs\Model\Paytabs</model>
                 <title>Paytabs</title>
                 <order_status>pending</order_status>
                 <allowspecific>0</allowspecific>
