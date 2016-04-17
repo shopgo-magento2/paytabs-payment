@@ -28,6 +28,19 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected $_productMetaData;
 
+    /**
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory
+     * @param \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \ShopGo\Paytabs\Helper\Data $helper
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Payment\Model\Method\Logger $logger
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\ProductMetadata $productMetaData
+     */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -56,7 +69,6 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         );
     }
      
-
     /**
      * prepare url payment page
      *
@@ -182,7 +194,7 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Get redirect controller url
      *
-     * @return $string
+     * @return string
      */
     public function getRedirectUrl()
     {
@@ -193,7 +205,7 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Get response controller url
      *
-     * @return $string
+     * @return string
      */
     public function getReturnUrl()
     {
@@ -206,7 +218,7 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
      * return array of products with details as paytabs api required 
      *
      * @param Collection $items
-     * @return $array
+     * @return array
      */
     protected function productsTitle ($items)
     {
@@ -232,8 +244,8 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * get country code with ISO3 fromat 
      *
-     * @param String $countrycode
-     * @return String
+     * @param string $countrycode
+     * @return string
      */
     protected function _getISO3Code($countrycode)
     {
