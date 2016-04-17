@@ -8,7 +8,7 @@ use \Magento\Framework\View\Element\Template;
 
 class Redirect extends Template
 {
-    protected $Config;
+    protected $_paytabs;
 
     /**
      * @var \Magento\Checkout\Model\Session
@@ -24,23 +24,23 @@ class Redirect extends Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \ShopGo\Paytabs\Model\paytabs $paymentConfig,
+        \ShopGo\Paytabs\Model\paytabs $paytabs,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory = $orderFactory;
-        $this->Config = $paymentConfig;
+        $this->_paytabs = $paytabs;
     }
 
     /**
-     * Get instructions text from config
+     * Get payment page url
      *
      * @return null|string
      */
     public function getPaymentGatewayUrl()
     {
-        return $this->Config->getPaymentGatewayUrl($this->getOrder());
+        return $this->_paytabs->getPaymentGatewayUrl($this->getOrder());
     }
 
     /**
