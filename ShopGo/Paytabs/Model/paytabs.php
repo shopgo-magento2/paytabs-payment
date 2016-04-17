@@ -55,8 +55,14 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
             $logger
         );
     }
+     
 
-    
+    /**
+     * prepare url payment page
+     *
+     * @param Order $order
+     * @return $string
+     */
     public function getPaymentGatewayUrl($order)
     {
         $fields = $this->getPostData($order);
@@ -104,6 +110,7 @@ class paytabs extends \Magento\Payment\Model\Method\AbstractMethod
                     $errorMessage = "Something Went Wrong with Payment Information";
                     break;
             }
+            //to add error message into redirect page
         }
     }
 
