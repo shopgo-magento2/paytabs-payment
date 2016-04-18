@@ -111,16 +111,16 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         } else {
             switch ($result['response_code']) {
                 case "4001":
-                    $errorMessage = "Variable not found.";
+                    $errorMessage = "Variable not found";
                     break;
                 case "4002":
-                    $errorMessage = "Invalid Credentials.";
+                    $errorMessage = "Invalid Credentials";
                     break;
                 case "4007":
-                    $errorMessage = "Missing parameter.";
+                    $errorMessage = "Missing parameter";
                     break;
                 case "0404":
-                    $errorMessage = "You don't have permissions to create an Invoice.";
+                    $errorMessage = "You don't have permissions to create an Invoice";
                     break;
                 default:
                     $errorMessage = "Something Went Wrong with Payment Information";
