@@ -16,6 +16,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const VERFY_PAYMENT        = '/apiv2/verify_payment';
     const PAYTABS_SITE         = 'https://www.paytabs.com';
 
+    protected $_httpClientFactory;
+
     protected $countries = array(
           "AF" => '+93',
           "AL" => '+355',
@@ -178,8 +180,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        Reader $configReader
+        Reader $configReader,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
     ) {
+        $this->_httpClientFactory = $httpClientFactory;
         parent::__construct($context, $scopeConfig);
     }
 
@@ -223,17 +227,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
       $fields_string = http_build_query($fields);
 
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL,$authentication_URL);
-      curl_setopt($ch, CURLOPT_POST, count($fields));
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-      $ch_result = curl_exec($ch);
-      $ch_error  = curl_error($ch);
+      $client = $this->_httpClientFactory->create();
+      $client->setUri($authentication_URL);
+      $client->setConfig(['maxredirects' => 0, 'timeout' => 30]);
+      $client->setRawData(utf8_encode($fields_string));
+      $response= $client->request(\Zend_Http_Client::POST)->getBody();
 
-      $result = json_decode($ch_result,true);
+      $result = json_decode($response,true);
       return $result;
     }
 
