@@ -34,6 +34,16 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_httpClientFactory;
 
     /**
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
+     */
+    protected $_remoteAddress;
+
+    /**
+     * @var \Magento\Framework\HTTP\PhpEnvironment\ServerAddress
+     */
+    protected $_serverAddress;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory
@@ -46,6 +56,8 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ProductMetadata $productMetaData
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\PhpEnvironment\ServerAddress $serverAddress
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -59,12 +71,16 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ProductMetadata $productMetaData,
-        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
+        \Magento\Framework\HTTP\PhpEnvironment\ServerAddress $serverAddress
     ) {
         $this->_productMetaData   = $productMetaData;
         $this->_countryFactory    = $countryFactory;
         $this->_storeManager      = $storeManager;
         $this->_httpClientFactory = $httpClientFactory;
+        $this->_remoteAddress     = $remoteAddress;
+        $this->_serverAddress     = $serverAddress;
         $this->_helper            = $helper;
         parent::__construct(
             $context,
@@ -126,7 +142,7 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
                     $errorMessage = "Something Went Wrong with Payment Information";
                     break;
             }
-            //to add error message into redirect page
+            //TODO add error message into redirect page
         }
     }
 
@@ -170,8 +186,8 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
             "discount"              => 0,//to detect
             "currency"              => $this->_storeManager->getStore()->getCurrentCurrency()->getCode(),
             "reference_no"          => "reference_no",//to detect
-            "ip_customer"           => $_SERVER['SERVER_ADDR'],//to detect
-            "ip_merchant"           => $_SERVER['SERVER_ADDR'],//to detect
+            "ip_customer"           => $this->_remoteAddress->getRemoteAddress(),
+            "ip_merchant"           => $this->_serverAddress->getServerAddress(),
             "billing_address"       => $billingAddress['street'],
             "state"                 => !empty($billingAddress['region']) ? $billingAddress['region'] : "MENA Country",
             "city"                  => $billingAddress['city'],
