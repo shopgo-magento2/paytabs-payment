@@ -254,7 +254,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @return string
      */
     public function _getccPhone($code)
-    {  
-      return $this->countries[$code];
+    {
+      if (isset($this->countries[$code])){
+        return $this->countries[$code];
+
+      }else{
+        return null;
+      }
     }
 }
