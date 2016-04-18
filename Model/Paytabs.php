@@ -29,6 +29,11 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_productMetaData;
 
     /**
+     * @var \Magento\Framework\HTTP\ZendClientFactory
+     */
+    protected $_httpClientFactory;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory
@@ -40,6 +45,7 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Payment\Model\Method\Logger $logger
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ProductMetadata $productMetaData
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -52,12 +58,14 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\ProductMetadata $productMetaData
+        \Magento\Framework\App\ProductMetadata $productMetaData,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
     ) {
-        $this->_productMetaData= $productMetaData;
-        $this->_countryFactory = $countryFactory;
-        $this->_helper         = $helper;
-        $this->_storeManager=$storeManager;
+        $this->_productMetaData   = $productMetaData;
+        $this->_countryFactory    = $countryFactory;
+        $this->_storeManager      = $storeManager;
+        $this->_httpClientFactory = $httpClientFactory;
+        $this->_helper            = $helper;
         parent::__construct(
             $context,
             $registry,
@@ -85,17 +93,13 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
 
         $fields_string = http_build_query($fields);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, \ShopGo\Paytabs\Helper\Data::PAYTABS_SITE.\ShopGo\Paytabs\Helper\Data::CREATE_PAY_PAGE);
-        curl_setopt($ch, CURLOPT_POST, count($fields));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        $ch_result = curl_exec($ch);
-        $ch_error = curl_error($ch);
+        $client = $this->_httpClientFactory->create();
+        $client->setUri($authentication_URL);
+        $client->setConfig(['maxredirects' => 0, 'timeout' => 30]);
+        $client->setRawData(utf8_encode($fields_string));
+        $response= $client->request(\Zend_Http_Client::POST)->getBody();
 
-        $result = json_decode($ch_result, true);
+        $result = json_decode($response,true);
 
         if ($this->_helper->getDebugStatus()) {
             $this->_logger->info(print_r($result,true));

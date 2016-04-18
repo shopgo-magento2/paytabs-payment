@@ -27,17 +27,14 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
         $fields_string = http_build_query($fields);
 
         $gateway_url = \ShopGo\Paytabs\Helper\Data::PAYTABS_SITE.\ShopGo\Paytabs\Helper\Data::VERFY_PAYMENT;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $gateway_url);
-        curl_setopt($ch, CURLOPT_POST, count($fields));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
-        $ch_result = curl_exec($ch);
-        $ch_error  = curl_error($ch);
-        $result    = json_decode($ch_result, true);
+        $client = $this->_httpClientFactory->create();
+        $client->setUri($gateway_url);
+        $client->setConfig(['maxredirects' => 0, 'timeout' => 30]);
+        $client->setRawData(utf8_encode($fields_string));
+        $response= $client->request(\Zend_Http_Client::POST)->getBody();
+
+        $result = json_decode($response,true);
 
         if ($this->_helper->getDebugStatus()) {
             $this->_logger->info(print_r($result,true));

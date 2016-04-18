@@ -25,23 +25,31 @@ abstract class Paytabs extends \Magento\Framework\App\Action\Action
     protected $_logger;
 
     /**
+     * @var \Magento\Framework\HTTP\ZendClientFactory
+     */
+    protected $_httpClientFactory;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Psr\Log\LoggerInterface $logger
      * @param \ShopGo\Paytabs\Helper\Data $helper
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Psr\Log\LoggerInterface $logger,
-        \ShopGo\Paytabs\Helper\Data $helper
+        \ShopGo\Paytabs\Helper\Data $helper,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
     ) {
         $this->_logger = $logger;
         $this->_helper = $helper;
-        $this->_checkoutSession = $checkoutSession;
-        $this->_orderFactory    = $orderFactory;
+        $this->_checkoutSession   = $checkoutSession;
+        $this->_orderFactory      = $orderFactory;
+        $this->_httpClientFactory = $httpClientFactory;
         parent::__construct($context);
     }
 
