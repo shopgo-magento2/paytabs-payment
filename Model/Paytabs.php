@@ -83,11 +83,7 @@ class Paytabs extends \Magento\Payment\Model\Method\AbstractMethod
             $this->_logger->info(print_r($fields,true));
         }
 
-        $fields_string = "";
-        foreach ($fields as $key => $value) {
-            $fields_string .= urlencode($key) . '=' . urlencode($value) . '&';
-        }
-        $fields_string = substr($fields_string, 0, strrpos($fields_string, '&'));
+        $fields_string = http_build_query($fields);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, \ShopGo\Paytabs\Helper\Data::PAYTABS_SITE.\ShopGo\Paytabs\Helper\Data::CREATE_PAY_PAGE);

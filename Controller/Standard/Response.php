@@ -24,12 +24,8 @@ class Response extends \ShopGo\Paytabs\Controller\Paytabs
 		    $this->_logger->info(print_r($fields,true));
         }
 
-        $fields_string = "";
-        foreach ($fields as $key => $value) {
-            $fields_string .= $key . '=' . $value . '&';
-        }
+        $fields_string = http_build_query($fields);
 
-        rtrim($fields_string, '&');
         $gateway_url = \ShopGo\Paytabs\Helper\Data::PAYTABS_SITE.\ShopGo\Paytabs\Helper\Data::VERFY_PAYMENT;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $gateway_url);

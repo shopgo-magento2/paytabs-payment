@@ -221,12 +221,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         'secret_key'     => $this->getConfigValue(self::XML_PATH_SECRET)
       );
 
-      $fields_string = "";
-      foreach($fields as $key=>$value) {
-        $fields_string .= $key . '=' . $value . '&';
-      }
-
-      $fields_string = substr($fields_string, 0, strrpos($fields_string, '&'));
+      $fields_string = http_build_query($fields);
 
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL,$authentication_URL);
